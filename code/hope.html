@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>web</title>
+	<form action="amt.html">
+		
+	</form>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGLyj3vBOgBeWBRak-MVNA95XklZUp0dE&callback=initMap"type="text/javascript"></script>
+
+	<style type="text/css">
+	#map{
+		
+		height: 800px;
+		width:1200px;
+		
+	}
+</style>
+
+		<script type="text/javascript">
+
+	
+
+		x=navigator.geolocation;
+		x.getCurrentPosition(success,failure);
+		function success(position){
+
+			var mylat=position.coords.latitude;
+			var mylag=position.coords.longitude;
+			var mrk1 = {lat: 31.7713,lng:76.9859};
+			var mrk2= {lat: 31.7977 , lng:77.0183};
+
+			var coords=new google.maps.LatLng(mylat,mylag);
+			var directionsService = new google.maps.DirectionsService();
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+
+			var mapop={
+				Zoom:15,
+				center:coords,
+			}
+
+
+			var image = 'images1.jpg';
+
+			var map = new google.maps.Map(document.getElementById("map"),mapop);
+			var marker = new google.maps.Marker({map:map,position:coords});
+			var mark1 = new google.maps.Marker({position:mrk1,map:map,icon: image});
+			var mark2 = new google.maps.Marker({position:mrk2,map:map,icon: image});
+			
+
+
+
+
+		}
+
+		function calculateAndDisplayRoute(directionsService, directionsDisplay,coords,mrk1, outputTxt) {
+  var selectedMode = "DRIVING";
+  directionsService.route({
+    origin:coords,
+    destination:mrk1,
+    unitSystem: google.maps.UnitSystem.METRIC,
+    travelMode: google.maps.TravelMode[selectedMode]
+  }, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+
+      outputTxt.innerHTML = Math.round(directionsDisplay.getDirections().routes[directionsDisplay.getRouteIndex()].legs[0].distance.value / 1000) + "Km";
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}
+
+var directionsService = new google.maps.DirectionsService();
+
+var request = {
+  origin      : coords, // a city, full address, landmark etc
+  destination : mrk1,
+  travelMode  : google.maps.DirectionsTravelMode.DRIVING
+};
+
+directionsService.route(request, function(response, status) {
+  if ( status == google.maps.DirectionsStatus.OK ) {
+    alert( response.routes[0].legs[0].distance.value ); // the distance in metres
+  }
+  else {
+    // oops, there's no route between these two locations
+    // every time this happens, a kitten dies
+    // so please, ensure your address is formatted properly
+  }
+});
+
+		function failure(){}
+	</script>
+
+	<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+</style>
+
+</head>
+<body>
+
+
+
+<button class="open-button" onclick="openForm()">Open Form</button>
+
+<div class="form-popup" id="myForm">
+  <form action="/action_page.php" class="form-container">
+    <h1>Login</h1>
+
+    <label for="email"><b>id no</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    
+    <input type="text" placeholder="battery status" name="psw" required>
+
+    
+    <input type="text" placeholder="desired battery" name="psw" required>
+
+    <a href="amt.html"><button type="submit" class="btn" >register</button></a>
+
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+</div>
+
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+	<div id="map"></div>
+
+</body>
+</html>
